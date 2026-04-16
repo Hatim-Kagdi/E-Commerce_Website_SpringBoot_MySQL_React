@@ -1,0 +1,42 @@
+# --- Build Artifacts ---
+target/
+bin/
+*.class
+*.war
+*.ear
+*.jar
+
+# --- Spring Boot & Maven ---
+.mvn/wrapper/maven-wrapper.jar
+HELP.md
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# --- Config & Secrets (Crucial for Real-World Apps) ---
+# We ignore the real application.properties to protect passwords.
+# Peer Tip: Usually, we keep an "application.properties.example" in git instead.
+src/main/resources/application.properties
+
+# --- Eclipse / STS Specific ---
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+*.launch
+
+# --- IntelliJ IDEA ---
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# --- VS Code ---
+.vscode/
+
+# --- OS Specific ---
+.DS_Store
+Thumbs.db
