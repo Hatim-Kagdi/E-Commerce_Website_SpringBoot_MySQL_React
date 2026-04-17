@@ -5,6 +5,10 @@ bin/
 *.war
 *.ear
 *.jar
+mvnw
+mvnw.cmd
+.mvn/
+.gitattributes
 
 # --- Spring Boot & Maven ---
 .mvn/wrapper/maven-wrapper.jar

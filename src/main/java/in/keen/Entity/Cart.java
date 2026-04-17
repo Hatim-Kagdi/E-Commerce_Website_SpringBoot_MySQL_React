@@ -29,9 +29,6 @@ public class Cart {
 	@Column(name = "product_quantity")
 	private int quantity;
 	
-	@Column(name = "product_total")
-	private int total;
-	
 	@CreationTimestamp
 	@Column(name = "cart_created_at")
 	private LocalDateTime createdAt;

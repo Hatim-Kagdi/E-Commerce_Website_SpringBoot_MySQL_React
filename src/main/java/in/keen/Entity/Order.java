@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "orders")
-@SQLDelete(sql = "UPDATE orders is_deleted = true, order_deleted_at = NOW() WHERE order_id = ?")
+@SQLDelete(sql = "UPDATE orders SET is_deleted = true, order_deleted_at = NOW() WHERE order_id = ?")
 @SQLRestriction("is_deleted = false")
 @Data
 public class Order {
@@ -27,7 +27,7 @@ public class Order {
 	
 	@ManyToOne
 	@JoinColumn(name = "product_id")
-	private Product productId;
+	private Product product;
 	
 	@Column(name = "order_amount")
 	private double amount;
