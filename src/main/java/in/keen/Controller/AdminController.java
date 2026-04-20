@@ -7,19 +7,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import in.keen.DTO.UserDTO;
 import in.keen.Entity.AppRole;
 import in.keen.Entity.User;
 import in.keen.Service.AdminService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/admin")
 public class AdminController {
 	@Autowired
 	private AdminService adminService;
 	
 	@GetMapping("/users")
-	public ResponseEntity<List<User>> getAllUsers(@RequestParam(required = false) AppRole role){
-		List<User> list = adminService.getAllUsers(role);
+	public ResponseEntity<List<UserDTO>> getAllUsers(@RequestParam(required = false) AppRole role){
+		System.out.println("AdminController called!");
+		List<UserDTO> list = adminService.getAllUsers(role);
 		return ResponseEntity.ok(list);
 	}
 	
