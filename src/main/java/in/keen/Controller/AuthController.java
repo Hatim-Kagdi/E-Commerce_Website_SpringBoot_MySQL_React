@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,14 +30,12 @@ public class AuthController {
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody Map<String, String> loginData){
 		System.out.println("Login request received ");
-		String email = loginData.get("email");
-		String rawPassword = loginData.get("password");
-		Optional<User> user = userService.loginUser(email, rawPassword);
+		String token = userService.loginUser(loginData.get("email"), loginData.get("password"));
 		
-		if(user.isPresent()) {
-			return ResponseEntity.ok(user.get());
+		if(token != null) {
+			return ResponseEntity.ok(Map.of("token", token));
 		}else {
-			return ResponseEntity.status(401).body("Invalid Email or password");
+			return ResponseEntity.status(401).body("Login Failed!");
 		}
 	}
 }

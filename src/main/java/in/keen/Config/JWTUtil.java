@@ -1,0 +1,53 @@
+package in.keen.Config;
+
+import java.security.Key;
+import java.util.Date;
+
+import org.springframework.stereotype.Component;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+
+@Component
+public class JWTUtil {
+	private final String secretKey = "bXlzZWNyZXRrZXlteXNlY3JldGtleW15c2VjcmV0a2V5MTIzNDU2";
+	
+	private Key getSignKey() {
+	    byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+	    return Keys.hmacShaKeyFor(keyBytes);
+	}
+	
+	public String generateToken(String email) {
+		return Jwts.builder()
+				.setSubject(email)
+				.setIssuedAt(new Date())
+				.setExpiration(new Date( System.currentTimeMillis() + 1000*60*60))
+				.signWith(getSignKey() , SignatureAlgorithm.HS256)
+				.compact();
+	}
+	
+	public String extractEmail(String token) {
+		return Jwts.parserBuilder()
+				.setSigningKey(getSignKey())
+				.build()
+				.parseClaimsJws(token)
+				.getBody()
+				.getSubject();
+	}
+	
+	public boolean validateToken(String token, String email) {
+		return email.equals(extractEmail(token)) && !isTokenExpired(token);
+	}
+
+	private boolean isTokenExpired(String token) {
+		Date expiry = Jwts.parserBuilder()
+				.setSigningKey(getSignKey())
+				.build()
+				.parseClaimsJws(token)
+				.getBody()
+				.getExpiration();
+		return expiry.before(new Date());
+	}
+}

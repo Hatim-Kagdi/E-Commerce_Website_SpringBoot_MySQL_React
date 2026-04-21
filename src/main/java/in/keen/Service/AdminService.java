@@ -27,18 +27,15 @@ public class AdminService {
 		} else {
 			userList = userRepository.findByRole(role);
 		}
-		return userList.stream().map((users) -> UserMapper.mapToUserDTO(users))
-				.collect(Collectors.toList());
+		return userList.stream().map((users) -> UserMapper.mapToUserDTO(users)).collect(Collectors.toList());
 	}
 
-	public Optional<User> getUserById(int userId) {
-		Optional<User> userOpt = userRepository.findById(userId);
-		if (userOpt.isPresent()) {
-			User user = userOpt.get();
-			return Optional.of(user);
-		} else {
-			return Optional.empty();
-		}
+	public UserDTO getUserById(int userId) {
+
+		User user = userRepository.findById(userId)
+				.orElseThrow(() -> new RuntimeException("User not found!"));
+
+		return UserMapper.mapToUserDTO(user);
 	}
 
 	@Transactional
@@ -53,20 +50,22 @@ public class AdminService {
 	}
 
 	@Transactional
-	public Optional<User> updateUser(int userId, User updatedUser) {
+	public UserDTO updateUser(int userId, UserDTO dto) {
 		Optional<User> userOpt = userRepository.findById(userId);
 
-		if (userOpt.isPresent()) {
-			User existingUser = userOpt.get();
-
-			existingUser.setUserName(updatedUser.getUserName());
-			existingUser.setUserEmail(updatedUser.getUserEmail());
-			existingUser.setUserMobileNumber(updatedUser.getUserMobileNumber());
-			existingUser.setUserAddress(updatedUser.getUserAddress());
-			existingUser.setUserBirthDate(updatedUser.getUserBirthDate());
-
-			return Optional.of(userRepository.save(existingUser));
+		if (userOpt.isEmpty()) {
+			throw new RuntimeException("User not found!");
 		}
-		return Optional.empty();
+		User existingUser = userOpt.get();
+
+		existingUser.setUserName(dto.getUserName());
+		existingUser.setUserEmail(dto.getUserEmail());
+		existingUser.setUserMobileNumber(dto.getUserMobileNumber());
+		existingUser.setUserAddress(dto.getUserAddress());
+		existingUser.setUserBirthDate(dto.getUserBirthDate());
+
+		User user = userRepository.save(existingUser);
+
+		return UserMapper.mapToUserDTO(user);
 	}
 }

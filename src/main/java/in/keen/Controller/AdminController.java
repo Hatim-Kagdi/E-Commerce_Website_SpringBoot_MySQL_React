@@ -27,28 +27,22 @@ public class AdminController {
 	}
 	
 	@GetMapping("/users/{userId}")
-	public ResponseEntity<?> getUserById(
+	public ResponseEntity<UserDTO> getUserById(
 			@PathVariable int userId){
-		Optional<User> userOpt =  adminService.getUserById(userId);
+		UserDTO userdto =  adminService.getUserById(userId);
 		
-		if(userOpt.isPresent()) {
-			return ResponseEntity.ok(userOpt.get());
-		}else {
-			return ResponseEntity.status(404).body("User Not Found!");
-		}
+		return ResponseEntity.ok(userdto);
+		
 	}
 	
 	@PutMapping("/users/{userId}")
-	public ResponseEntity<?> updateUser(
+	public ResponseEntity<UserDTO> updateUser(
 			@PathVariable int userId,
-			@RequestBody User updatesUser){
-		Optional<User> userOpt = adminService.updateUser(userId, updatesUser);
+			@RequestBody UserDTO updatedUserDTO){
 		
-		if(userOpt.isPresent()) {
-			return ResponseEntity.ok(userOpt.get());
-		}else {
-			return ResponseEntity.status(404).body("User not found!");
-		}
+		UserDTO userdto = adminService.updateUser(userId, updatedUserDTO);
+		
+		return ResponseEntity.ok(userdto);
 	}
 	
 	@DeleteMapping("/users/{userId}")

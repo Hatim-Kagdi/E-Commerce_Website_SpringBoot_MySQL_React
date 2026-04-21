@@ -3,22 +3,33 @@ package in.keen.Service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import in.keen.Config.JWTUtil;
+import in.keen.DTO.UserDTO;
 import in.keen.Entity.User;
+import in.keen.Mapper.UserMapper;
 import in.keen.Repository.UserRepository;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
 	
-	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	@Autowired
+	private AuthenticationManager authManager;
 	
+	@Autowired
+	private JWTUtil jwtutil;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+
 	@Transactional
 	public User registerUser(User user) {
 		String hashedPassword = passwordEncoder.encode(user.getUserPassword());
@@ -26,16 +37,15 @@ public class UserService {
 		return userRepository.save(user);
 	}
 	
-	public Optional<User> loginUser(String email, String rawPassword){
-		Optional<User> userOpt = userRepository.findByUserEmail(email);
-		
-		if(userOpt.isPresent()) {
-			User user = userOpt.get();
-			
-			if(passwordEncoder.matches(rawPassword, user.getUserPassword())){
-			return Optional.of(user);
-			}
+	public String loginUser(String email, String password) {
+		try {
+		authManager.authenticate(
+				new UsernamePasswordAuthenticationToken(email, password));
+		String token = jwtutil.generateToken(email);
+		return token;
+		}catch(Exception e) {
+			return null;
 		}
-		return Optional.empty();
 	}
+
 }
