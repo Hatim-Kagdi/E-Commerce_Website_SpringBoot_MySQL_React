@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.keen.DTO.UserDTO;
 import in.keen.Entity.User;
 import in.keen.Service.UserService;
 
@@ -33,7 +34,11 @@ public class AuthController {
 		String token = userService.loginUser(loginData.get("email"), loginData.get("password"));
 		
 		if(token != null) {
-			return ResponseEntity.ok(Map.of("token", token));
+			UserDTO user = userService.getUserByEmail(loginData.get("email"));
+			return ResponseEntity.ok(Map.of(
+					"token", token,
+					"role" , user.getRole().name()
+					));
 		}else {
 			return ResponseEntity.status(401).body("Login Failed!");
 		}

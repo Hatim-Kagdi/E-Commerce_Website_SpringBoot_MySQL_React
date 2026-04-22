@@ -48,4 +48,15 @@ public class UserService {
 		}
 	}
 
+	public UserDTO getUserByEmail(String email) {
+		Optional<User> userOpt = userRepository.findByUserEmail(email);
+		
+		if(userOpt.isEmpty()) {
+			throw new RuntimeException("User not found!");
+		}
+		
+		User user = userOpt.get();
+		return UserMapper.mapToUserDTO(user);
+	}
+
 }

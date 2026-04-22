@@ -52,6 +52,7 @@ public class SecurityConfig {
         
         return http
             .csrf(csrf -> csrf.disable())
+            .cors(cors -> {})            
             .authenticationProvider(authProvider())
             .authorizeHttpRequests(auth -> auth
             		.requestMatchers("/auth/**").permitAll()
@@ -62,6 +63,8 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .addFilterBefore(jwtfilter, UsernamePasswordAuthenticationFilter.class)
+            .formLogin(form -> form.disable())
+            .httpBasic(basic -> basic.disable())
             .build();  
     }
 }

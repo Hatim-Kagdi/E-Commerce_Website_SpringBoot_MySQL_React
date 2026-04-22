@@ -1,6 +1,7 @@
 package in.keen.Controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class AdminController {
 			boolean delete = adminService.deleteUser(userId);
 			
 			if(delete == true) {
-				return ResponseEntity.ok().body("User deleted!");
+				return ResponseEntity.ok(Map.of("message" , "User Deleted!"));
 		}else {
 			return ResponseEntity.status(404).body("User not deleted!");
 		}
