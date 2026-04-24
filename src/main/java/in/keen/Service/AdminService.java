@@ -27,7 +27,9 @@ public class AdminService {
 		} else {
 			userList = userRepository.findByRole(role);
 		}
-		return userList.stream().map((users) -> UserMapper.mapToUserDTO(users)).collect(Collectors.toList());
+		return userList.stream()
+				.map((users) -> UserMapper.mapToUserDTO(users))
+				.collect(Collectors.toList());
 	}
 
 	public UserDTO getUserById(int userId) {

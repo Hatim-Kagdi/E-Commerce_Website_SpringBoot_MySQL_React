@@ -1,17 +1,14 @@
 package in.keen.Entity;
 
 import java.time.LocalDateTime;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLRestriction;
-import org.hibernate.annotations.UpdateTimestamp;
-
+import org.hibernate.annotations.*;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Table(name = "products")
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @SQLDelete(sql = "UPDATE products SET is_deleted = true WHERE product_id=?")
 @SQLRestriction("is_deleted = false")
 public class Product {
@@ -54,4 +51,116 @@ public class Product {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+	public int getProductId() {
+		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public String getProductDescription() {
+		return productDescription;
+	}
+
+	public void setProductDescription(String productDescription) {
+		this.productDescription = productDescription;
+	}
+
+	public double getProductPrice() {
+		return productPrice;
+	}
+
+	public void setProductPrice(double productPrice) {
+		this.productPrice = productPrice;
+	}
+
+	public int getProductStock() {
+		return productStock;
+	}
+
+	public void setProductStock(int productStock) {
+		this.productStock = productStock;
+	}
+
+	public String getProductImageUrl() {
+		return productImageUrl;
+	}
+
+	public void setProductImageUrl(String productImageUrl) {
+		this.productImageUrl = productImageUrl;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public User getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(User vendor) {
+		this.vendor = vendor;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+//	//Parameterized
+//	public Product(int productId, String productName, String productDescription, double productPrice, int productStock,
+//			String productImageUrl, boolean isDeleted, Category category, User vendor, LocalDateTime createdAt,
+//			LocalDateTime updatedAt) {
+//		super();
+//		this.productId = productId;
+//		this.productName = productName;
+//		this.productDescription = productDescription;
+//		this.productPrice = productPrice;
+//		this.productStock = productStock;
+//		this.productImageUrl = productImageUrl;
+//		this.isDeleted = isDeleted;
+//		this.category = category;
+//		this.vendor = vendor;
+//		this.createdAt = createdAt;
+//		this.updatedAt = updatedAt;
+//	}
+//
+//	//No Args
+//	public Product() {
+//	}
+	
+	
 }

@@ -1,22 +1,11 @@
 package in.keen.Entity;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLRestriction;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.SQLDelete;
-
+import java.time.*;
+import org.hibernate.annotations.*;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users")
-@NoArgsConstructor
-@AllArgsConstructor
 @SQLDelete(sql = "UPDATE users SET is_deleted = true, user_deleted_at = NOW() WHERE user_id=?")
 @SQLRestriction("is_deleted = false")
 public class User {
@@ -155,6 +144,29 @@ public class User {
 
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	//Parameterized
+	public User(int userId, String userName, String userEmail, String userPassword, Long userMobileNumber,
+			String userAddress, LocalDate userBirthDate, boolean isDeleted, LocalDateTime deletedAt, AppRole role,
+			LocalDateTime createdAt, LocalDateTime updatedAt) {
+		super();
+		this.userId = userId;
+		this.userName = userName;
+		this.userEmail = userEmail;
+		this.userPassword = userPassword;
+		this.userMobileNumber = userMobileNumber;
+		this.userAddress = userAddress;
+		this.userBirthDate = userBirthDate;
+		this.isDeleted = isDeleted;
+		this.deletedAt = deletedAt;
+		this.role = role;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
+	
+	//No Args 
+	public User() {
 	}
 }
 

@@ -23,7 +23,7 @@ public class AuthController {
 	private UserService userService;
 	
 	@PostMapping("/register")
-	public ResponseEntity<User> register(@RequestBody User user){
+	public ResponseEntity<UserDTO> register(@RequestBody User user){
 		System.out.println("Registration request received for: " + user.getUserEmail());
 		return ResponseEntity.ok(userService.registerUser(user));
 	}
@@ -37,10 +37,11 @@ public class AuthController {
 			UserDTO user = userService.getUserByEmail(loginData.get("email"));
 			return ResponseEntity.ok(Map.of(
 					"token", token,
-					"role" , user.getRole().name()
+					"role" , user.getRole().name(),
+					"userId" , user.getUserId()
 					));
 		}else {
-			return ResponseEntity.status(401).body("Login Failed!");
+			return ResponseEntity.status(401).body(Map.of("message", "Login Failed"));
 		}
 	}
 }

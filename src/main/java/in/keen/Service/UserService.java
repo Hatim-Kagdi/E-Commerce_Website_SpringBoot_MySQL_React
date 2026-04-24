@@ -31,10 +31,11 @@ public class UserService {
 	private BCryptPasswordEncoder passwordEncoder;
 
 	@Transactional
-	public User registerUser(User user) {
+	public UserDTO registerUser(User user) {
 		String hashedPassword = passwordEncoder.encode(user.getUserPassword());
 		user.setUserPassword(hashedPassword);
-		return userRepository.save(user);
+		User userSaved =  userRepository.save(user);
+		return UserMapper.mapToUserDTO(userSaved);
 	}
 	
 	public String loginUser(String email, String password) {

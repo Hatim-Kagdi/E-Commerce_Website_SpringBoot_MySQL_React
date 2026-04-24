@@ -3,6 +3,7 @@ package in.keen.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -22,6 +23,9 @@ public class SecurityConfig {
 	
 	@Autowired
 	private JWTFilter jwtfilter;
+	
+	@Autowired
+	private CORSConfig corsConfig;
 	
 	private final MyUserDetailsService userDetailsService;
 	
@@ -52,11 +56,13 @@ public class SecurityConfig {
         
         return http
             .csrf(csrf -> csrf.disable())
-            .cors(cors -> {})            
+            .cors(cors -> cors.configurationSource(corsConfig.corsConfigSource()))            
             .authenticationProvider(authProvider())
             .authorizeHttpRequests(auth -> auth
             		.requestMatchers("/auth/**").permitAll()
+            		.requestMatchers(HttpMethod.GET, "/admin/categories").hasAnyRole("ADMIN","VENDOR")
             		.requestMatchers("/admin/**").hasRole("ADMIN")
+            		.requestMatchers("/vendor/**").hasRole("VENDOR")
             		.anyRequest().authenticated()
             )
             .sessionManagement(session -> session

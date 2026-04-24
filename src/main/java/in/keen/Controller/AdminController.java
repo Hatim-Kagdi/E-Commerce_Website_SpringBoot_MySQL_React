@@ -31,7 +31,6 @@ public class AdminController {
 	public ResponseEntity<UserDTO> getUserById(
 			@PathVariable int userId){
 		UserDTO userdto =  adminService.getUserById(userId);
-		
 		return ResponseEntity.ok(userdto);
 		
 	}

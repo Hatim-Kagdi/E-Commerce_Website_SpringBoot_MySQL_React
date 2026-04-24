@@ -1,0 +1,31 @@
+👑 ADMIN (Core Responsibilities)
+
+Admin is the super controller of system
+
+✅ User Management (MOST IMPORTANT – start here)
+View all users
+View users by role:
+customers
+vendors
+Update user details
+Delete user (soft delete already implemented 👏)
+✅ Product Oversight
+View all products
+Delete any product
+Block vendor (by disabling user)
+✅ Order Monitoring
+View all orders
+Update order status
+✅ System Control (optional for now)
+Dashboard stats (later)
+Reports (later)
+🧑‍💼 VENDOR
+Add product
+Update own product
+Delete own product
+View own products
+🛒 CUSTOMER
+View products
+Add to cart
+Place order
+View own orders
