@@ -9,7 +9,7 @@ mvnw
 mvnw.cmd
 .mvn/
 .gitattributes
-uploads/
+/uploads/
 
 # --- Spring Boot & Maven ---
 .mvn/wrapper/maven-wrapper.jar
