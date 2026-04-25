@@ -45,7 +45,7 @@ public class CategoryController {
 		if(category != null) {
 			return ResponseEntity.ok(category);
 		}else {
-			return ResponseEntity.status(400).body("Updated Failed!");
+			return ResponseEntity.status(400).body(Map.of("message" , "Update Failed!"));
 		}
 	}
 	
@@ -55,7 +55,7 @@ public class CategoryController {
 		if(delete) {
 			return ResponseEntity.ok(Map.of("message" , "Category Deleted"));
 		}else {
-			return ResponseEntity.status(404).body("Category Not Deleted!");
+			return ResponseEntity.status(404).body(Map.of("message" , "Category Not Deleted"));
 		}
 	}
 }

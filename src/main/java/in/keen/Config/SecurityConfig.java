@@ -60,9 +60,11 @@ public class SecurityConfig {
             .authenticationProvider(authProvider())
             .authorizeHttpRequests(auth -> auth
             		.requestMatchers("/auth/**").permitAll()
+            		.requestMatchers("/uploads/**").permitAll()
             		.requestMatchers(HttpMethod.GET, "/admin/categories").hasAnyRole("ADMIN","VENDOR")
             		.requestMatchers("/admin/**").hasRole("ADMIN")
             		.requestMatchers("/vendor/**").hasRole("VENDOR")
+            		.requestMatchers("/customer/**").hasRole("CUSTOMER")
             		.anyRequest().authenticated()
             )
             .sessionManagement(session -> session

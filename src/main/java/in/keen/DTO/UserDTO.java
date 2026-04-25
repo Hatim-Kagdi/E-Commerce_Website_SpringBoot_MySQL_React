@@ -17,8 +17,6 @@ public class UserDTO {
 	private LocalDateTime userCreatedAt;
 	private LocalDateTime userUpdatedAt;
 	
-	
-	
 	public UserDTO(int userId, String userName, String userEmail, Long userMobileNumber, String userAddress,
 			LocalDate userBirthDate, AppRole role, LocalDateTime userCreatedAt, LocalDateTime userUpdatedAt) {
 		
@@ -106,4 +104,9 @@ public class UserDTO {
 	public void setUserUpdatedAt(LocalDateTime userUpdatedAt) {
 		this.userUpdatedAt = userUpdatedAt;
 	}
+
+	public UserDTO() {
+	}
+	
+	
 }

@@ -25,11 +25,14 @@ public class ProductService {
 	private CategoryRepository categoryRepository;
 	
 	@Transactional
-	public ProductDTO addProduct(Product product) {
-		Category category = categoryRepository.findById(product.getCategory().getCategoryId())
+	public ProductDTO addProduct(ProductDTO productdto) {
+		
+		Product product = ProductMapper.mapToProduct(productdto);
+		
+		Category category = categoryRepository.findById(productdto.getCategory().getCategoryId())
 				.orElseThrow(() -> new RuntimeException("Category Not FOund!"));
 		
-		User vendor = userRepository.findById(product.getVendor().getUserId())
+		User vendor = userRepository.findById(productdto.getVendor().getUserId())
 				.orElseThrow(() -> new RuntimeException("Vendor Not FOund!"));
 		
 		product.setCategory(category);
@@ -65,27 +68,30 @@ public class ProductService {
 	}
 	
 	@Transactional
-	public ProductDTO updateProduct(Product newProduct, int productId) {
+	public ProductDTO updateProduct(ProductDTO newProductDTO, int productId) {
 		Optional<Product> productOpt = productRepository.findById(productId);
 		if(productOpt.isEmpty()) {
 			throw new RuntimeException("Product not found!");
 		}
 		
 		Product existingProduct = productOpt.get();
-		existingProduct.setProductName(newProduct.getProductName());
-		existingProduct.setProductDescription(newProduct.getProductDescription());
-		existingProduct.setProductPrice(newProduct.getProductPrice());
-		existingProduct.setProductStock(newProduct.getProductStock());
-		existingProduct.setProductImageUrl(newProduct.getProductImageUrl());
+		existingProduct.setProductName(newProductDTO.getProductName());
+		existingProduct.setProductDescription(newProductDTO.getProductDescription());
+		existingProduct.setProductPrice(newProductDTO.getProductPrice());
+		existingProduct.setProductStock(newProductDTO.getProductStock());
 		
-		if(newProduct.getVendor() != null) {
-			User actualVendor = userRepository.findById(newProduct.getVendor().getUserId())
+		if (newProductDTO.getProductImageUrl() != null && !newProductDTO.getProductImageUrl().isEmpty()) {
+		    existingProduct.setProductImageUrl(newProductDTO.getProductImageUrl());
+		}
+		
+		if(newProductDTO.getVendor() != null) {
+			User actualVendor = userRepository.findById(newProductDTO.getVendor().getUserId())
 					.orElseThrow(() -> new RuntimeException("User not Found!"));
 			existingProduct.setVendor(actualVendor);
 		}
 		
-		if(newProduct.getCategory() != null) {
-			Category actualCategory = categoryRepository.findById(newProduct.getCategory().getCategoryId())
+		if(newProductDTO.getCategory() != null) {
+			Category actualCategory = categoryRepository.findById(newProductDTO.getCategory().getCategoryId())
 					.orElseThrow(() -> new RuntimeException("Category Not FOund!"));
 		existingProduct.setCategory(actualCategory);
 		}

@@ -18,4 +18,15 @@ public class ProductMapper {
 				product.getVendor().getUserName()
 		);
 	}
+	
+	public static Product mapToProduct(ProductDTO dto) {
+	    Product product = new Product();
+	    product.setProductName(dto.getProductName());
+	    product.setProductDescription(dto.getProductDescription());
+	    product.setProductPrice(dto.getProductPrice());
+	    product.setProductStock(dto.getProductStock());
+	    product.setProductImageUrl(dto.getProductImageUrl());
+	    // IDs are handled in the Service layer after this call
+	    return product;
+	}
 }

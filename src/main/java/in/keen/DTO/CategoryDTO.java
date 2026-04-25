@@ -70,6 +70,7 @@ public class CategoryDTO {
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	
-	
+
+	public CategoryDTO() {
+	}
 }

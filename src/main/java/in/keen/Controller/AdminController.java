@@ -52,7 +52,7 @@ public class AdminController {
 			if(delete == true) {
 				return ResponseEntity.ok(Map.of("message" , "User Deleted!"));
 		}else {
-			return ResponseEntity.status(404).body("User not deleted!");
+			return ResponseEntity.status(404).body(Map.of("message" , "User Not Deleted!"));
 		}
 	}
 }
