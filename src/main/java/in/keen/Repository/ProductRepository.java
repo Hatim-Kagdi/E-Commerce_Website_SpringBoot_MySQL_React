@@ -10,4 +10,6 @@ import in.keen.Entity.Product;
 public interface ProductRepository extends JpaRepository<Product, Integer>{
 
 	List<Product> findByVendorUserEmail(String userEmail);
+
+	List<Product> findByVendorUserId(int userId);
 }

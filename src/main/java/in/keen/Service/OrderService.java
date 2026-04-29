@@ -90,4 +90,13 @@ public class OrderService {
 		orderRepository.save(order);
 		return true;
 	}
+	
+	//ADMIN MODULE
+	public List<OrderDTO> getCustomerDetails(int userId) {
+		List<Order> order = orderRepository.findByCustomerUserId(userId);
+		
+		return order.stream()
+				.map((orderItem) -> OrderMapper.mapToCustomerOrderDTO(orderItem))
+				.collect(Collectors.toList());
+	}
 }

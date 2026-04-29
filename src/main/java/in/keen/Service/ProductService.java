@@ -99,4 +99,12 @@ public class ProductService {
 		Product product = productRepository.save(existingProduct);
 		return ProductMapper.mapToProductDTO(product);
 	}
+	
+	//ADMIN MODULE
+	public List<ProductDTO> getVendorProductDetails(int userId) {
+		List<Product> list = productRepository.findByVendorUserId(userId);
+		return list.stream()
+				.map((productItem) -> ProductMapper.mapToProductDTO(productItem))
+				.collect(Collectors.toList());
+	}
 }

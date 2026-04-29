@@ -1,24 +1,23 @@
 package in.keen.Controller;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import in.keen.DTO.UserDTO;
-import in.keen.Entity.AppRole;
-import in.keen.Entity.User;
-import in.keen.Service.AdminService;
+import in.keen.DTO.*;
+import in.keen.Entity.*;
+import in.keen.Service.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/admin")
 public class AdminController {
-	@Autowired
-	private AdminService adminService;
+	@Autowired private AdminService adminService;
+	
+	@Autowired private OrderService orderService;
+	
+	@Autowired private ProductService productService;
 	
 	@GetMapping("/users")
 	public ResponseEntity<List<UserDTO>> getAllUsers(@RequestParam(required = false) AppRole role){
@@ -34,6 +33,27 @@ public class AdminController {
 		return ResponseEntity.ok(userdto);
 		
 	}
+	
+	@GetMapping("/customerDetails/{userId}")
+	public ResponseEntity<?> getCustomerDetails(@PathVariable int userId){
+		try {
+			List<OrderDTO> dto = orderService.getCustomerDetails(userId);
+			return ResponseEntity.ok(dto);
+		}catch(Exception e) {
+			return ResponseEntity.status(404).body(Map.of("message" ,"ERROR"));
+		}
+		
+	};
+	
+	@GetMapping("/vendorDetails/{userId}")
+	public ResponseEntity<?> getVendorProductDetails(@PathVariable int userId){
+		try {
+			List<ProductDTO> list = productService.getVendorProductDetails(userId);
+			return ResponseEntity.ok(list);
+		}catch(Exception e) {
+			return ResponseEntity.status(404).body(Map.of("message", "ERROR"));
+		}
+	};
 	
 	@PutMapping("/users/{userId}")
 	public ResponseEntity<UserDTO> updateUser(
